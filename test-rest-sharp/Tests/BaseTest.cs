@@ -1,12 +1,15 @@
-﻿using NUnit.Framework;
+﻿using Microsoft.Extensions.Logging;
+using NUnit.Framework;
 using RestSharp;
 using test_rest_sharp.Const;
+using test_rest_sharp.Helpers;
 
 namespace test_rest_sharp.Tests
 {
     public class BaseTest
     {
         protected static IRestClient? _client;
+        protected static readonly ILogger<BaseTest> Logger = LoggingConfig.CreateLogger<BaseTest>();
 
         [OneTimeSetUp]
         public static void InitializeRestClient() => _client = new RestClient("https://api.trello.com");
@@ -18,8 +21,7 @@ namespace test_rest_sharp.Tests
         [OneTimeTearDown]
         public void OneTimeTearDown()
         {
-            // Dispose of the _client instance directly
-            _client.Dispose();
+            _client?.Dispose();
         }
 
     }
